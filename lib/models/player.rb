@@ -8,6 +8,8 @@ class Player
     
   end
 
+  def score
 
+  end
 
 end

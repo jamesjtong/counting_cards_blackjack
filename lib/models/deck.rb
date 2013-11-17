@@ -1,5 +1,5 @@
 class Deck
-  attr_reader :deck
+  attr_reader :deck, :true_count, :ace_count
   FACECARDS = %w(J Q K)
   PLUS_COUNT = %w(2 3 4 5 6) 
   NEUTRAL_COUNT = %w(7 8 9)
@@ -28,26 +28,31 @@ class Deck
     end
   end
 
-  def true_count_n_pop
-    card = self.pop
-    if card == "A"
-      @ace_count += 1
-    end
-
-    if PLUS_COUNT.include?(card)
-      @true_count += 1
-    elsif MINUS_COUNT.include?(card)
-      @true_count -= 1
-    end
+  def set_counts
+    @true_count = 0
+    @ace_count = 0
   end
 
   def deal_hand
     puts "dealing new hands"
-    @user_hand = [deck.true_count_n_pop, deck.true_count_n_pop]
+    @user_hand = [check_count(deck.pop), check_count(deck.pop)]
   end
 
+  def check_count(card)
+    if card[0] == "A"
+      @ace_count += 1
+    end
+    if PLUS_COUNT.include?(card[0])
+      @true_count += 1
+    elsif MINUS_COUNT.include?(card[0])
+      @true_count -= 1
+    end
+    card
+  end
+
+
   def hit
-    @user_hand << deck.pop
+    @user_hand << check_count(deck.pop)
   end
 
   def hand_score
