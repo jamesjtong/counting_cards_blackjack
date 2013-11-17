@@ -5,7 +5,7 @@ class Game
   end
 
   def self.true_count
-    
+
   end
 
   def num_aces
@@ -14,4 +14,10 @@ class Game
   def deal
 
   end
+
+  def play
+    @user_input = gets.chomp.strip.downcase
+  end
+
+  
 end

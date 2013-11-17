@@ -1,7 +1,10 @@
-require 'pry'
 class Deck
   attr_reader :deck
   FACECARDS = %w(J Q K)
+  PLUS_COUNT = %w(2 3 4 5 6) 
+  NEUTRAL_COUNT = %w(7 8 9)
+  MINUS_COUNT = %w(10 J Q K A)
+
   def initialize
     self.create_standard_six_decks
     self.deck.flatten!.shuffle!
@@ -11,13 +14,12 @@ class Deck
     card_num = %w(2 3 4 5 6 7 8 9 10 J Q K A)
     card_suit = %w(Diamonds Clubs Hearts Spades)
     @standard_deck = 
-      card_num.flat_map do |card|
-        card_suit.flat_map do |suit|
+      card_num.map do |card|
+        card_suit.map do |suit|
           card+" of "+suit
         end
-      end
+      end.flatten
   end
-  #wanted to create 1 single array, not an array of arrays so using flat_map
 
   def create_standard_six_decks
     @deck = []
@@ -26,8 +28,22 @@ class Deck
     end
   end
 
+  def true_count_n_pop
+    card = self.pop
+    if card == "A"
+      @ace_count += 1
+    end
+
+    if PLUS_COUNT.include?(card)
+      @true_count += 1
+    elsif MINUS_COUNT.include?(card)
+      @true_count -= 1
+    end
+  end
+
   def deal_hand
-    @user_hand = [deck.pop, deck.pop]
+    puts "dealing new hands"
+    @user_hand = [deck.true_count_n_pop, deck.true_count_n_pop]
   end
 
   def hit
@@ -55,12 +71,13 @@ class Deck
 
   def detect_bust
     if hand_score > 21
-      puts "Busted"
+      self.busted
     end
   end
 
+  def busted
+    puts "Busted!"
+    deal_hand
+  end
 
 end
-
-y = Deck.new
-binding.pry

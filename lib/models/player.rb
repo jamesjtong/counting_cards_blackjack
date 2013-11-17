@@ -4,6 +4,9 @@ class Player
     @name = name
   end
 
+  def guess_count
+    
+  end
 
 
 
