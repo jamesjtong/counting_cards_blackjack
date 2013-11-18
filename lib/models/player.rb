@@ -17,10 +17,13 @@ class Player
   def guess_aces
     answer = gets.chomp.strip
     if answer == @current_deck.ace_count
+      puts "Corrent"
       score += 1
     else
+      puts "WRONG"
       score -= 1
     end
+    puts "Your current score is #{self.score}"
   end
 
   
