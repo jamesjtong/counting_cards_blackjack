@@ -37,7 +37,7 @@ class Deck
   def deal_hands
     @dealer_hand = [check_count(deck.pop)]
     @user_hand = [check_count(deck.pop), check_count(deck.pop)]
-
+    puts "\nThe dealer shows #{dealer_hand}\n\n You have #{user_hand}.\n What do you want to do?"
   end
 
   def check_count(card)
@@ -60,36 +60,37 @@ class Deck
   end
 
   def stand
-    hand_score(self.dealer_hand) >= 17 ? compare_hand_value : hit(self.dealer_hand)
-
+    dealer_hits_until_17
+    compare_hand_value
   end
 
   def dealer_hits_until_17
     @new_hand = false
-    until hand_score(@dealer_hand) >= 17 
-      break if @new_hand == true
+    while hand_score(@dealer_hand) < 17 && @new_hand == false
       hit(@dealer_hand)
       puts "Dealer Hits! His hand is now #{@dealer_hand}"
     end
   end
 
   def compare_hand_value
-    if hand_score(@dealer_hand) > hand_score(@user_hand)
+    if hand_score(@dealer_hand) >= hand_score(@user_hand)
+      puts "Dealer's hand consist of #{@dealer_hand} for a total of #{hand_score(@dealer_hand)}"
       puts "You lose"
     else
+      puts "Dealer's hand consists of #{@dealer_hand}"
       puts "You win this hand"
     end
+    deal_hands
   end
 
 
   def hand_score(hand)
     score = 0
-    
     hand.each do |card|
-      if FACECARDS.include?(card[0])
+      if FACECARDS.include?(card[0]) || card[/\d+/] == "10"
         score += 10
       elsif card[0] == "A"
-        if score >= 10
+        if score < 11
           score += 11
         else
           score += 1
@@ -101,16 +102,9 @@ class Deck
     score
   end
 
-
-
-  def detect_bust(hand)
-    if hand_score(hand) > 21
-      self.busted
-    end
-  end
-
   def detect_dealer_bust
     if hand_score(@dealer_hand) > 21
+      puts "Dealer Hits! His hand is now #{@dealer_hand}"
       puts "DEALER BUSTED, you win"
       @new_hand = true
       deal_hands
@@ -118,12 +112,12 @@ class Deck
   end
 
   def detect_player_bust
-    if hand_score(@player_hand) > 21
+    if hand_score(@user_hand) > 21
+      puts "Player Hits! His hand is now #{@user_hand}"
       puts "PLAYER BUSTED, you lose"
       @new_hand = true
       deal_hands
     end
-
   end
 
 

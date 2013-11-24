@@ -3,6 +3,7 @@ class Player
 
   def initialize
     @score = 0
+    @times_wrong = 0
   end
 
   def guess_count
@@ -11,6 +12,7 @@ class Player
       score += 1
     else
       score -= 1
+      times_wrong += 1
     end
   end
 

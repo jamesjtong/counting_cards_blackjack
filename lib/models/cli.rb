@@ -1,5 +1,5 @@
 class CLI
-  COMMANDS = [:help, :exit, :hit, :guess_count, :stand, :start_playing]
+  COMMANDS = [:help, :exit, :hit, :guess_count, :stand, :my_score]
 
   def initialize
     puts "*Welcome to Counting Cards BlackJack*\n"
@@ -7,8 +7,6 @@ class CLI
     @current_deck = Deck.new
     @on = true
     @current_deck.deal_hands
-    binding.pry
-    puts "Dealing new hands, \nThe dealer shows #{@current_deck.dealer_hand}\n\n You have #{@current_deck.user_hand}.\n What do you want to do?"
   end
 
   def my_score
@@ -16,15 +14,11 @@ class CLI
   end
 
   def help
-    puts "Please enter any of the following commands: start_playing, hit, stand, guess_count, exit or guess_aces \n"
+    puts "Please enter any of the following commands: hit, stand, guess_count, exit or guess_aces \n"
     self.command_request
   end
 
-  def start_playing
-    @current_deck.deal_hands
-    puts "Dealing new hands, \nThe dealer shows #{@current_deck.dealer_hand}\n\n You have #{@current_deck.user_hand}.\n What do you want to do?"
 
-  end
 
   def hit
     @current_deck.hit(@current_deck.user_hand)
