@@ -1,4 +1,4 @@
-class Deck
+class Game
   attr_reader :deck, :true_count, :ace_count, :dealer_hand, :user_hand
   FACECARDS = %w(J Q K)
   PLUS_COUNT = %w(2 3 4 5 6) 
@@ -35,6 +35,7 @@ class Deck
   end
 
   def deal_hands
+    @new_hand = true
     @dealer_hand = [check_count(deck.pop)]
     @user_hand = [check_count(deck.pop), check_count(deck.pop)]
     puts "\nThe dealer shows #{dealer_hand}\n\n You have #{user_hand}.\n What do you want to do?"
@@ -61,14 +62,16 @@ class Deck
 
   def stand
     dealer_hits_until_17
-    compare_hand_value
   end
 
   def dealer_hits_until_17
     @new_hand = false
     while hand_score(@dealer_hand) < 17 && @new_hand == false
+      puts "Dealer Hits! His hand is now #{@dealer_hand}xxx"
       hit(@dealer_hand)
-      puts "Dealer Hits! His hand is now #{@dealer_hand}"
+    end
+    if @new_hand == false
+      compare_hand_value
     end
   end
 
@@ -76,9 +79,11 @@ class Deck
     if hand_score(@dealer_hand) >= hand_score(@user_hand)
       puts "Dealer's hand consist of #{@dealer_hand} for a total of #{hand_score(@dealer_hand)}"
       puts "You lose"
+      @new_hand = true
     else
       puts "Dealer's hand consists of #{@dealer_hand}"
       puts "You win this hand"
+      @new_hand = true
     end
     deal_hands
   end
@@ -106,7 +111,6 @@ class Deck
     if hand_score(@dealer_hand) > 21
       puts "Dealer Hits! His hand is now #{@dealer_hand}"
       puts "DEALER BUSTED, you win"
-      @new_hand = true
       deal_hands
     end
   end
@@ -115,10 +119,11 @@ class Deck
     if hand_score(@user_hand) > 21
       puts "Player Hits! His hand is now #{@user_hand}"
       puts "PLAYER BUSTED, you lose"
-      @new_hand = true
       deal_hands
     end
   end
 
 
 end
+require 'pry'
+binding.pry
