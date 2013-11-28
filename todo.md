@@ -1,0 +1,3 @@
+-add bash command to clear screen
+-add talking
+-put on web and add pictures

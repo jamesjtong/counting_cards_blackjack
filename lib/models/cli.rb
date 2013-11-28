@@ -4,7 +4,7 @@ class CLI
   def initialize
     puts "*Welcome to Counting Cards BlackJack*\n"
     @player = Player.new
-    @current_deck = Deck.new
+    @current_deck = Game.new
     @on = true
     @current_deck.deal_hands
   end
@@ -18,11 +18,8 @@ class CLI
     self.command_request
   end
 
-
-
   def hit
     @current_deck.hit(@current_deck.user_hand)
-    puts "\nThe dealer shows #{@current_deck.dealer_hand}\n\n You have #{@current_deck.user_hand}.\n What do you want to do?"
   end
 
   def stand

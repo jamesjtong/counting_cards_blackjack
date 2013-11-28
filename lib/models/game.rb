@@ -56,6 +56,7 @@ class Game
 
   def hit(hand)
     hand << check_count(deck.pop)
+    puts "\nHitted! The dealer shows #{dealer_hand}\n\n You have #{user_hand}.\n What do you want to do? zz"
     detect_player_bust
     detect_dealer_bust
   end
@@ -69,6 +70,7 @@ class Game
     while hand_score(@dealer_hand) < 17 && @new_hand == false
       puts "Dealer Hits! His hand is now #{@dealer_hand}xxx"
       hit(@dealer_hand)
+      `sleep 1`
     end
     if @new_hand == false
       compare_hand_value
@@ -95,10 +97,9 @@ class Game
       if FACECARDS.include?(card[0]) || card[/\d+/] == "10"
         score += 10
       elsif card[0] == "A"
-        if score < 11
-          score += 11
-        else
-          score += 1
+        score += 11
+        if score > 21
+          score -= 10
         end
       else
         score += card[0].to_i
@@ -125,5 +126,3 @@ class Game
 
 
 end
-require 'pry'
-binding.pry
