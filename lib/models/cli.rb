@@ -1,5 +1,5 @@
 class CLI
-  COMMANDS = [:help, :exit, :hit, :guess_count, :stand, :my_score]
+  COMMANDS = [:help, :exit, :hit, :guess_count, :guess_aces, :stand, :my_score]
 
   def initialize
     puts "*Welcome to Counting Cards BlackJack*\n"
@@ -7,6 +7,7 @@ class CLI
     @current_deck = Game.new
     @on = true
     @current_deck.deal_hands
+    @player.game = @current_deck
   end
 
   def my_score
@@ -14,7 +15,7 @@ class CLI
   end
 
   def help
-    puts "Please enter any of the following commands: hit, stand, guess_count, exit or guess_aces \n"
+    puts "Please enter any of the following commands: hit, stand, guess_count, guess_aces, or exit \n"
     self.command_request
   end
 
@@ -27,10 +28,13 @@ class CLI
   end
 
   def guess_count
+    puts "\nInput the current count"
     @player.guess_count
+
   end
 
   def guess_aces
+    puts "\nInput the number of aces shown so far"
     @player.guess_aces
   end
 
@@ -38,7 +42,6 @@ class CLI
     while @on == true
       self.help
     end
-
   end
 
   def exit

@@ -47,7 +47,7 @@ class Game
     end
     if PLUS_COUNT.include?(card[0])
       @true_count += 1
-    elsif MINUS_COUNT.include?(card[0])
+    elsif MINUS_COUNT.include?(card[0])|| card[/\d+/] == "10"
       @true_count -= 1
     end
     card
@@ -69,6 +69,7 @@ class Game
     @new_hand = false
     while hand_score(@dealer_hand) < 17 && @new_hand == false
       puts "Dealer Hits! His hand is now #{@dealer_hand}xxx"
+      system('clear')
       hit(@dealer_hand)
       `sleep 1`
     end
